@@ -42,5 +42,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.gsonlib)
     implementation(libs.okhttplib)
+    implementation(libs.okhttpliblog) // 可选：用于日志记录
 
 }

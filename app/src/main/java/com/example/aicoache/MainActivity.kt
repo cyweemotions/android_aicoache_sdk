@@ -12,10 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.aicoache.ui.theme.AiCoacheTheme
+import com.example.trainingLib.AiSupport
+import kotlin.concurrent.thread
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initload()
         enableEdgeToEdge()
         setContent {
             AiCoacheTheme {
@@ -26,6 +30,15 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+    }
+
+    fun initload() {
+        println("onStart-执行")
+        ///所有请求开线程
+        ///先用天气
+        thread {
+            AiSupport().request()
         }
     }
 }
