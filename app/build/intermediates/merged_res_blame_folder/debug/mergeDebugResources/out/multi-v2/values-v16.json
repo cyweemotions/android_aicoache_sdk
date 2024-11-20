@@ -4,11 +4,7 @@
             "outputFile": "com.example.aicoache.app-mergeDebugResources-56:/values-v16/values-v16.xml",
             "map": [
                 {
-<<<<<<< HEAD
-                    "source": "/Users/apple/.gradle/caches/transforms-4/a5e60ed83ede0d9230cd2e81abd2f6e1/transformed/appcompat-1.7.0/res/values-v16/values-v16.xml",
-=======
-                    "source": "/Users/rohn/.gradle/caches/transforms-4/b322effade0ecbd8fe586ece50e47274/transformed/core-1.12.0/res/values-v16/values-v16.xml",
->>>>>>> 3f384f399a04bb5b2b8ad4a7a8ed00422e9d71f9
+                    "source": "/Users/rohn/.gradle/caches/transforms-4/a5e60ed83ede0d9230cd2e81abd2f6e1/transformed/appcompat-1.7.0/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
