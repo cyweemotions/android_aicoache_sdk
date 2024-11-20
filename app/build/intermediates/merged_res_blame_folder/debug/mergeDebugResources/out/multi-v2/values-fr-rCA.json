@@ -4,7 +4,11 @@
             "outputFile": "com.example.aicoache.app-mergeDebugResources-56:/values-fr-rCA/values-fr-rCA.xml",
             "map": [
                 {
+<<<<<<< HEAD
                     "source": "/Users/rohn/.gradle/caches/transforms-4/a5e60ed83ede0d9230cd2e81abd2f6e1/transformed/appcompat-1.7.0/res/values-fr-rCA/values-fr-rCA.xml",
+=======
+                    "source": "/Users/apple/.gradle/caches/transforms-4/a5e60ed83ede0d9230cd2e81abd2f6e1/transformed/appcompat-1.7.0/res/values-fr-rCA/values-fr-rCA.xml",
+>>>>>>> a7e4f889080550879bc352e7536881645bd81c97
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -57,7 +61,11 @@
                     }
                 },
                 {
+<<<<<<< HEAD
                     "source": "/Users/rohn/.gradle/caches/transforms-4/6e93304763508d688fe7f7f03c4b9888/transformed/ui-release/res/values-fr-rCA/values-fr-rCA.xml",
+=======
+                    "source": "/Users/apple/.gradle/caches/transforms-4/6e93304763508d688fe7f7f03c4b9888/transformed/ui-release/res/values-fr-rCA/values-fr-rCA.xml",
+>>>>>>> a7e4f889080550879bc352e7536881645bd81c97
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -74,7 +82,11 @@
                     }
                 },
                 {
+<<<<<<< HEAD
                     "source": "/Users/rohn/.gradle/caches/transforms-4/bb238f92fe54bb380fd75ef991776222/transformed/foundation-release/res/values-fr-rCA/values-fr-rCA.xml",
+=======
+                    "source": "/Users/apple/.gradle/caches/transforms-4/504997d4aa9d65b048057c5dfb81ee2f/transformed/core-1.13.0/res/values-fr-rCA/values-fr-rCA.xml",
+>>>>>>> a7e4f889080550879bc352e7536881645bd81c97
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -89,6 +101,7 @@
                         "endColumns": "87,94",
                         "endOffsets": "17690,17785"
                     }
+<<<<<<< HEAD
                 },
                 {
                     "source": "/Users/rohn/.gradle/caches/transforms-4/5927ef759584f2a451759a006486f805/transformed/material3-release/res/values-fr-rCA/values-fr-rCA.xml",
@@ -106,6 +119,8 @@
                         "endColumns": "146,144,121,147,125,93,111,141,118,158,83,100,100,100,120,134,105,149,145,135,201,128,117,122,132,101,104,123,127,101,111,104,144,151,108,108,77,92,94,89,85,106,79,84,96,110,92,103,87,115,100,108,121,79,109,96",
                         "endOffsets": "5707,5852,5974,6122,6248,6342,6454,6596,6715,6874,6958,7059,7160,7261,7382,7517,7623,7773,7919,8055,8257,8386,8504,8627,8760,8862,8967,9091,9219,9321,9433,9538,9683,9835,9944,10053,10131,10224,10319,10409,10495,10602,10682,10767,10864,10975,11068,11172,11260,11376,11477,11586,11708,11788,11898,11995"
                     }
+=======
+>>>>>>> a7e4f889080550879bc352e7536881645bd81c97
                 }
             ]
         }

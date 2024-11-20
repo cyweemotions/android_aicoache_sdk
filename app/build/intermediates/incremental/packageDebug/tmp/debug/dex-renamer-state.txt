@@ -1,4 +1,4 @@
-#Wed Nov 20 16:44:52 CST 2024
+#Wed Nov 20 16:55:18 CST 2024
 base.0=/Users/apple/Documents/AiCoache/AndroidSDK/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/Users/apple/Documents/AiCoache/AndroidSDK/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.2=/Users/apple/Documents/AiCoache/AndroidSDK/app/build/intermediates/dex/debug/mergeProjectDexDebug/13/classes.dex
