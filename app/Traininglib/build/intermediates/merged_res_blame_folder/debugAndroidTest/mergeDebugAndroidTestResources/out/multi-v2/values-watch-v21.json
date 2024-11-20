@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.traininglib.test.Traininglib-mergeDebugAndroidTestResources-30:/values-watch-v21/values-watch-v21.xml",
+            "map": [
+                {
+                    "source": "/Users/apple/.gradle/caches/transforms-4/0bb66de377679ffc6bf2f408c909c4e2/transformed/appcompat-1.7.0/res/values-watch-v21/values-watch-v21.xml",
+                    "from": {
+                        "startLines": "2,6,10",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,271,499",
+                        "endLines": "5,9,13",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "266,494,724"
+                    }
+                }
+            ]
+        }
+    ]
+}
