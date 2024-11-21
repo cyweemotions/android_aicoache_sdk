@@ -1,7 +1,7 @@
 package com.example.aicoache
 
-import android.R
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -18,27 +18,18 @@ import kotlin.concurrent.thread
 
 class MainActivity : ComponentActivity() {
 //    @BindView(R.id.login)
+    lateinit var btn:Button
 //    var username: EditText? = null
 //    @BindView(R.id.button)
 //    lateinit var button: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_layout)
         ButterKnife.bind(this)
         login()
 //        initload()
         enableEdgeToEdge()
-//        setContent {
-//            AiCoacheTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
-//            }
-//        }
     }
 
     fun initload() {

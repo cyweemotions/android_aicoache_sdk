@@ -1,8 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.butterknife.compiler)
-//    #butterknife-compiler = { id = "com.jakewharton", version.ref = "butterknife" }
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -70,5 +69,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.butterknife)
-    annotationProcessor(libs.butterknife.compiler)
+    kapt(libs.butterknifecompiler)
 }

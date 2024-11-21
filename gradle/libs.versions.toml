@@ -36,10 +36,10 @@ gsonlib = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVe
 okhttplib = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
 okhttpliblog = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3log" }
 butterknife = { group = "com.jakewharton", name = "butterknife", version.ref = "butterknife" }
-butterknife-compiler = { group = "com.jakewharton", name = "butterknife-compiler", version.ref = "butterknife" }
+butterknifecompiler = { group = "com.jakewharton", name = "butterknife-compiler", version.ref = "butterknife" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
