@@ -7,4 +7,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="button">#FFBAB3B3</color> <!--按钮 -->
+    <color name="success">#FF528C57</color> <!--成功 -->
 </resources>
