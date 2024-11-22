@@ -59,16 +59,17 @@ class AiSupport {
         println("创建计划===》response : ${response.toString()}")
         return response
     }
+
     //获取计划
-    fun getPlanUrl(token:String, params:requestModel) :String {
-        val gson = Gson()
-        val paramsJson = gson.toJson(params)
-        println(paramsJson)
-        val response = HttpClientHelper().get(getPlanUrl, paramsJson, token)
-        return ""
+    fun getPlan(token:String) : ResponseModel? {
+        val response = HttpClientHelper().get(getPlanUrl, token=token)
+        val res = Gson().fromJson(response, ResponseModel::class.java)
+        println("获取计划===》response : ${response.toString()}")
+        return res
     }
+
     //停止计划
-    fun stopPlanUrl(token:String, params:requestModel) :String {
+    fun stopPlan(token:String, params:requestModel) :String {
         val gson = Gson()
         val paramsJson = gson.toJson(params)
         println(paramsJson)

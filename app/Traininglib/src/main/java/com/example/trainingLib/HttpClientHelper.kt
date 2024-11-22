@@ -21,7 +21,7 @@ class HttpClientHelper {
     // GET 请求
     fun get(url: String, json: String = "", token: String = ""): String? {
         val request = Request.Builder()
-            .url(url+"id=$json")
+            .url(url)
             .addHeader("Authorization", "Bearer $token")
             .build()
         return executeRequest(request)
@@ -70,7 +70,7 @@ class HttpClientHelper {
             val requestBody = request.body
             val requestLog = StringBuilder("Request: ${request.method} ${request.url}\n")
             if (requestBody != null) {
-                requestLog.append("====================Request Body====================: \n${requestBody.toString()}\n")
+                requestLog.append("====================Request Body Start====================: \n${requestBody.toString()}\n====================Request Body End==================== ")
             }
 
             println(requestLog.toString()) // 打印请求信息
@@ -83,7 +83,7 @@ class HttpClientHelper {
 
             // 打印响应信息
             val responseLog = StringBuilder("Response: ${response.code} ${response.message}\n")
-            responseLog.append("====================Response Body====================: \n$responseBodyString\n")
+            responseLog.append("====================Response Body Start====================: \n$responseBodyString\n====================Response Body End====================")
 
             println(responseLog.toString()) // 打印响应信息
 
