@@ -17,8 +17,6 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : ComponentActivity() {
-//    @BindView(R.id.login)
-    lateinit var btn:Button
 //    var username: EditText? = null
 //    @BindView(R.id.button)
 //    lateinit var button: View
@@ -28,7 +26,7 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.main_layout)
         ButterKnife.bind(this)
         login()
-//        initload()
+        initload()
         enableEdgeToEdge()
     }
 

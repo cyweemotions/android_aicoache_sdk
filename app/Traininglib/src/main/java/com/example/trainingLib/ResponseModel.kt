@@ -5,6 +5,7 @@ data class ResponseModel(
     val body:String,
     val id:Int,
     val userId:Int,
+    val arrary:ArrayList<String>
 ){
     fun displayInfo() {
         println("title: $title")
