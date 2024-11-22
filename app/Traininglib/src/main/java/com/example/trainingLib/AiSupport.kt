@@ -31,7 +31,7 @@ class AiSupport {
         HttpClientHelper().post(createPlanUrl, paramsJson, token,callback)
     }
     //获取计划
-    fun getPlanUrl(token:String, params:requestModel,callback: (String?) -> Unit) {
+    fun getPlanUrl(token:String,callback: (String?) -> Unit) {
         val gson = Gson()
         HttpClientHelper().get(getPlanUrl, token,callback)
 
