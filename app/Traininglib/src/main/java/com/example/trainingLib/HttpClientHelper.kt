@@ -19,21 +19,33 @@ class HttpClientHelper {
     }
 
     // GET 请求
-    fun get(url: String): String? {
-        val request = Request.Builder().url(url).build()
+    fun get(url: String, json: String = "", token: String = ""): String? {
+        val request = Request.Builder()
+            .url(url+"id=$json")
+            .addHeader("Authorization", "Bearer $token")
+            .build()
         return executeRequest(request)
     }
 
     // POST 请求
-    fun post(url: String, json: String): String? {
+    fun post(url: String, json: String, token: String =""): String? {
         val body = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
-        val request = Request.Builder().url(url).post(body).build()
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization", "Bearer $token")
+            .post(body)
+            .build()
         return executeRequest(request)
     }
 
     // DELETE 请求
-    fun delete(url: String): String? {
-        val request = Request.Builder().url(url).delete().build()
+    fun delete(url: String, json: String, token: String =""): String? {
+        val body = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization", "Bearer $token")
+            .delete(body)
+            .build()
         return executeRequest(request)
     }
 
