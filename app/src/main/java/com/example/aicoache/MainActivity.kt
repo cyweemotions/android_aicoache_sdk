@@ -18,10 +18,7 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : ComponentActivity() {
-<<<<<<< HEAD
 
-=======
->>>>>>> 4bf1e0f6ffe393d62d4f4fba644f5ae4bee88fc4
 
     private lateinit var binding: MainLayoutBinding
 
@@ -33,10 +30,7 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
         initload()
         login()
-<<<<<<< HEAD
-=======
         showUserInfo()
->>>>>>> 4bf1e0f6ffe393d62d4f4fba644f5ae4bee88fc4
         enableEdgeToEdge()
     }
     fun initload() {
