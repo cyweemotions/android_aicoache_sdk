@@ -23,57 +23,25 @@ class AiSupport {
         println("这是一个sdk打印")
     }
 
-    @SuppressLint("SuspiciousIndentation")
-    fun request(){
-        val response = HttpClientHelper().get("https://jsonplaceholder.typicode.com/posts")
-//        val client = OkHttpClient()
-//        // 创建 GET 请求
-//        val request = Request.Builder().get()
-//            .url("https://jsonplaceholder.typicode.com/posts") // 示例 URL
-//            .build()
-//        // 执行请求
-//        val response: Response = client.newCall(request).execute()
-//        // 处理响应
-//        if (response.isSuccessful) {
-//            val res = Gson().fromJson(response.body?.string(), Array<ResponseModel>::class.java).toMutableList()
-//            for(value in res){
-//                println("Response: ${value.id}")
-//                println("Response: ${value.title}")
-//                println("Response: ${value.userId}")
-//                println("Response: ${value.body}")
-//            }
-//        } else {
-            println("Requestsdsd : ${response.toString()}")
-//        }
-
-
-    }
-
     ///生成计划
-    fun createPlan(token:String, params:requestModel) : String? {
+    fun createPlan(token:String, params:requestModel,callback: (String?) -> Unit){
         val gson = Gson()
         val paramsJson = gson.toJson(params)
         println(paramsJson)
-        val response = HttpClientHelper().post(createPlanUrl, paramsJson, token)
-
-        println("创建计划===》response : ${response.toString()}")
-        return response
+        HttpClientHelper().post(createPlanUrl, paramsJson, token,callback)
     }
     //获取计划
-    fun getPlanUrl(token:String, params:requestModel) :String {
+    fun getPlanUrl(token:String, params:requestModel,callback: (String?) -> Unit) {
         val gson = Gson()
-        val paramsJson = gson.toJson(params)
-        println(paramsJson)
-        val response = HttpClientHelper().get(getPlanUrl, paramsJson, token)
-        return ""
+        HttpClientHelper().get(getPlanUrl, token,callback)
+
     }
     //停止计划
-    fun stopPlanUrl(token:String, params:requestModel) :String {
+    fun stopPlanUrl(token:String, params:requestModel,callback: (String?) -> Unit) {
         val gson = Gson()
         val paramsJson = gson.toJson(params)
         println(paramsJson)
-        val response = HttpClientHelper().delete(stopPlanUrl, paramsJson, token)
-        return ""
+        HttpClientHelper().post(stopPlanUrl, paramsJson, token,callback)
     }
 
 

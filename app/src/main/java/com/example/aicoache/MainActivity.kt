@@ -37,9 +37,6 @@ class MainActivity : ComponentActivity() {
         println("onStart-执行")
         ///所有请求开线程
         ///先用天气
-        thread {
-            AiSupport().request()
-        }
         binding.createPlan.setOnClickListener {
             println("创建计划")
             createPlanBtn()
@@ -83,8 +80,10 @@ class MainActivity : ComponentActivity() {
             trainingDaysPerWeek = "1,3",
             weight = 70
         )
-        thread {
-            AiSupport().createPlan(token,requestModel)
+
+        AiSupport().createPlan(token,requestModel){ res ->
+                println("返回-${res.toString()}")
         }
+
     }
 }
