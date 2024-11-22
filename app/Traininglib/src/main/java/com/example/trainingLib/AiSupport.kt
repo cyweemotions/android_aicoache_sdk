@@ -12,6 +12,12 @@ class AiSupport {
     constructor(
 
     )
+    companion object {
+        val createPlanUrl = "https://test-health.cyweemotion.cn/cmms/app/trainingCourse/generateTrainingPlan"
+        val getPlanUrl = "https://test-health.cyweemotion.cn/cmms/app/trainingCourse/getTrainingCourseInfo"
+        val stopPlanUrl = "https://test-health.cyweemotion.cn/cmms/app/trainingCourse/stopTrainingPlan"
+    }
+
 
     fun test(){
         println("这是一个sdk打印")
@@ -41,6 +47,33 @@ class AiSupport {
 //        }
 
 
+    }
+
+    ///生成计划
+    fun createPlan(token:String, params:requestModel) : String? {
+        val gson = Gson()
+        val paramsJson = gson.toJson(params)
+        println(paramsJson)
+        val response = HttpClientHelper().post(createPlanUrl, paramsJson, token)
+
+        println("创建计划===》response : ${response.toString()}")
+        return response
+    }
+    //获取计划
+    fun getPlanUrl(token:String, params:requestModel) :String {
+        val gson = Gson()
+        val paramsJson = gson.toJson(params)
+        println(paramsJson)
+        val response = HttpClientHelper().get(getPlanUrl, paramsJson, token)
+        return ""
+    }
+    //停止计划
+    fun stopPlanUrl(token:String, params:requestModel) :String {
+        val gson = Gson()
+        val paramsJson = gson.toJson(params)
+        println(paramsJson)
+        val response = HttpClientHelper().delete(stopPlanUrl, paramsJson, token)
+        return ""
     }
 
 
