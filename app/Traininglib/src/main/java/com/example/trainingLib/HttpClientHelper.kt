@@ -72,21 +72,16 @@ class HttpClientHelper {
             if (requestBody != null) {
                 requestLog.append("====================Request Body Start====================: \n${requestBody.toString()}\n====================Request Body End==================== ")
             }
-
-            println(requestLog.toString()) // 打印请求信息
-
+            println("请求log:${requestLog.toString()}") // 打印请求信息
             // 执行请求，获取响应
             val response = chain.proceed(request)
-
             // 读取响应体内容
             val responseBodyString = response.body?.string()
-
             // 打印响应信息
             val responseLog = StringBuilder("Response: ${response.code} ${response.message}\n")
             responseLog.append("====================Response Body Start====================: \n$responseBodyString\n====================Response Body End====================")
 
             println(responseLog.toString()) // 打印响应信息
-
             // 为了避免流已关闭问题，重新构建一个新的响应体
             val newResponseBody = responseBodyString?.let { ResponseBody.create(response.body?.contentType(), it) }
             return response.newBuilder().body(newResponseBody).build() // 返回一个新的 Response
