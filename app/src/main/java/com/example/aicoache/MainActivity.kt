@@ -17,18 +17,7 @@ import kotlin.concurrent.thread
 
 
 class MainActivity : ComponentActivity() {
-<<<<<<< HEAD
-//    var username: EditText? = null
-//    @BindView(R.id.button)
-//    lateinit var button: View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_layout)
-        ButterKnife.bind(this)
-        login()
-        initload()
-=======
 
     private lateinit var binding: MainLayoutBinding
 
@@ -38,7 +27,6 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
 //        initload()
         login()
->>>>>>> a3bdbd8a170c1c5637e9d39d17015589b9ac629a
         enableEdgeToEdge()
     }
     fun initload() {
