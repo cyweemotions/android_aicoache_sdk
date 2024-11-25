@@ -1,46 +1,59 @@
 package com.example.aicoache
 
-import android.os.Build
+import CustomAdapter
+import Item
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.ListView
 import android.widget.Toast
 import com.example.aicoache.databinding.MainLayoutBinding
+import com.example.aicoache.databinding.ListItemBinding
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
-import com.example.aicoache.ui.theme.AiCoacheTheme
 import com.example.trainingLib.AiSupport
+import com.example.trainingLib.ApiResponseModel
 import com.example.trainingLib.ResponseModel
 import com.example.trainingLib.requestModel
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
-import kotlin.concurrent.thread
 
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var binding: MainLayoutBinding
+    private lateinit var itemBinding: ListItemBinding
 
-    val token : String = "eyJhbGciOiJIUzUxMiJ9.eyJhcHBfbG9naW5fdXNlcl9rZXkiOiJiN2Y0YTBlZC1mN2MwLTQwZGEtYTI5Ni1hOWEwMDI4ZjA3NWUifQ.8xebKgfKKWOWAuo8Aai4hP7__IPcQkk1XYBHMsawvFYXWtrWr6iA08_lxCyxJZfQvgGyVeMdWeTkaZcWQjqn4w"
+    val token : String = "eyJhbGciOiJIUzUxMiJ9.eyJhcHBfbG9naW5fdXNlcl9rZXkiOiJiY2YzYmRhNC1lNzZjLTQ4NTMtYTMxNS1iMTVkZThkNWEyMDcifQ.lsUCEiblyGYaC-PwvrTkxsk7AuaqTdmJVGL1PSAQo6dHZrumA6sOwqBmMBYuGYwAH-mTiI9ggPbGcAvsFCoszQ"
+    private lateinit var listView : ListView
+    private lateinit var adapter : CustomAdapter
+    private val listData = mutableListOf<List<String>>()  // 用于存储数据的 List
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainLayoutBinding.inflate(layoutInflater)
+        itemBinding = ListItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initload()
-        login()
-        showUserInfo()
         enableEdgeToEdge()
     }
     fun initload() {
+        listView = binding.dataList  // 获取 ListView
+        adapter = CustomAdapter(this, listData)
+        listView.adapter = adapter
+
+        listView.setOnItemClickListener { parent, view, position, id ->
+            println("onStart-点击了执行")
+            val clickedItem = listData[position][0]
+            Toast.makeText(this, "点击了第 ${position + 1} 行: $clickedItem", Toast.LENGTH_SHORT).show()
+//            val intent = Intent(this, DetailActivity::class.java)
+//            intent.putExtra("item", clickedItem)
+//            startActivity(intent)
+        }
+
+        showUserInfo()
         println("onStart-执行")
         ///所有请求开线程
         ///先用天气
@@ -60,8 +73,6 @@ class MainActivity : ComponentActivity() {
             binding.userinfo.text = "登录成功"
             Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
             binding.login.setBackgroundColor(ContextCompat.getColor(this, R.color.success))
-//            binding.login.visibility = View.GONE  // 隐藏视图
-//            button.visibility = View.VISIBLE  // 显示视图
         }
     }
 
@@ -79,7 +90,6 @@ class MainActivity : ComponentActivity() {
         """.trimIndent()
         binding.userinfo.text = text
     }
-
     fun createPlanBtn() {
         // 获取当前本地日期
         val currentDate = Calendar.getInstance().time
@@ -105,14 +115,30 @@ class MainActivity : ComponentActivity() {
 
     }
     fun getPlanBtn() {
-            var response : ResponseModel?
-            AiSupport().getPlanUrl(token){ res ->
-//                response = res;
+        var response : ResponseModel?
+
+        AiSupport().getPlan(token){ res ->
+            val data = Gson().fromJson(res, ApiResponseModel::class.java)
+            response = data.data
+            var trainingCourseDetailList = response?.trainingCourseDetailList
+            if (trainingCourseDetailList != null) {
+
+                runOnUiThread {
+                    println("${trainingCourseDetailList.size}")
+                    for (i in trainingCourseDetailList){
+                        println(i.courseTime)
+                        val dataItem = listOf(i.courseTime, i.courseName)
+                        addItem(dataItem, adapter)
+                    }
+                }
+
             }
-            // 切换到 UI 线程更新视图
-//            runOnUiThread {
-//                // 更新 UI 组件，例如 TextView
-//                binding.dataList.text = response.toString()
-//            }
+        }
+    }
+
+    // 动态添加项
+    private fun addItem(newItem: List<String>, adapter: CustomAdapter) {
+        listData.add(newItem)
+        adapter.notifyDataSetChanged()
     }
 }

@@ -31,13 +31,21 @@ class AiSupport {
         HttpClientHelper().post(createPlanUrl, paramsJson, token,callback)
     }
     //获取计划
-    fun getPlanUrl(token:String,callback: (String?) -> Unit) {
+    fun getPlan(token:String,callback: (String?) -> Unit) {
         val gson = Gson()
-        HttpClientHelper().get(getPlanUrl, token,callback)
+        HttpClientHelper().get(getPlanUrl, token){ res->
+            println("回调函数处理结果res===>: $res")
+
+            callback(res)
+        }
+
 
     }
+    fun handleResult(result: String) {
+        println("回调函数处理结果: $result")
+    }
     //停止计划
-    fun stopPlanUrl(token:String, params:requestModel,callback: (String?) -> Unit) {
+    fun stopPlan(token:String, params:requestModel,callback: (String?) -> Unit) {
         val gson = Gson()
         val paramsJson = gson.toJson(params)
         println(paramsJson)
