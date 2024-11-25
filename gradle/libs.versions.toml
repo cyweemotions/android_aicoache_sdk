@@ -13,6 +13,8 @@ material = "1.10.0"
 gsonVersion = "2.11.0"
 okhttp3 = "4.12.0"
 okhttp3log = "4.10.0"
+activity = "1.9.3"
+constraintlayout = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 gsonlib = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 okhttplib = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
 okhttpliblog = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3log" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

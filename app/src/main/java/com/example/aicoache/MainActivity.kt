@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.example.trainingLib.AiSupport
 import com.example.trainingLib.ApiResponseModel
 import com.example.trainingLib.ResponseModel
+import com.example.trainingLib.TrainingCourseDetail
 import com.example.trainingLib.requestModel
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
@@ -30,6 +31,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var listView : ListView
     private lateinit var adapter : CustomAdapter
     private val listData = mutableListOf<List<String>>()  // 用于存储数据的 List
+    private lateinit var planList:List<TrainingCourseDetail> //训练计划数据
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +48,10 @@ class MainActivity : ComponentActivity() {
 
         listView.setOnItemClickListener { parent, view, position, id ->
             println("onStart-点击了执行")
-            val clickedItem = listData[position][0]
-            Toast.makeText(this, "点击了第 ${position + 1} 行: $clickedItem", Toast.LENGTH_SHORT).show()
-//            val intent = Intent(this, DetailActivity::class.java)
-//            intent.putExtra("item", clickedItem)
-//            startActivity(intent)
+            val courseContent:String = planList[position].courseContent
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("item", courseContent)
+            startActivity(intent)
         }
 
         showUserInfo()
@@ -120,18 +121,14 @@ class MainActivity : ComponentActivity() {
         AiSupport().getPlan(token){ res ->
             val data = Gson().fromJson(res, ApiResponseModel::class.java)
             response = data.data
-            var trainingCourseDetailList = response?.trainingCourseDetailList
-            if (trainingCourseDetailList != null) {
-
-                runOnUiThread {
-                    println("${trainingCourseDetailList.size}")
-                    for (i in trainingCourseDetailList){
-                        println(i.courseTime)
-                        val dataItem = listOf(i.courseTime, i.courseName)
-                        addItem(dataItem, adapter)
-                    }
+            planList = response?.trainingCourseDetailList ?: emptyList()
+            runOnUiThread {
+                println("${planList.size}")
+                for (i in planList){
+                    println(i.courseTime)
+                    val dataItem = listOf(i.courseTime, i.courseName)
+                    addItem(dataItem, adapter)
                 }
-
             }
         }
     }
