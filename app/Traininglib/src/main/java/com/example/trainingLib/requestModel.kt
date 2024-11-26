@@ -1,6 +1,7 @@
 package com.example.trainingLib
 
 data class requestModel (
+    val userId:Long,
     val birthday:String,
     val courseType:Int,
     val height:Int,

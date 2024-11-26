@@ -22,20 +22,30 @@ class HttpClientHelper {
     }
 
     // GET 请求
-    fun get(url: String,token: String,callback: (String?) -> Unit) {
-        val request = Request.Builder().url(url).addHeader("Authorization", "Bearer $token").build()
+    fun get(url: String, userId: Long, callback: (String?) -> Unit) {
+        println("GET 请求===>${userId}")
+        //addHeader("userId", userId)
+        val requestUrl : String = "$url?userId=$userId"
+        val request = Request.Builder().url(requestUrl).build()
         executeRequest(request, callback)
     }
 
     // POST 请求
-    fun post(url: String, json: String,token: String,callback: (String?) -> Unit) {
+    fun post(url: String, json: String,callback: (String?) -> Unit) {
         val body = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), json)
-        val request = Request.Builder().post(body).url(url).addHeader("Authorization", "Bearer $token").build()
+        val request = Request.Builder().post(body).url(url).build()
+        executeRequest(request, callback)
+    }
+    fun stopPost(url: String, userId: Long, callback: (String?) -> Unit) {
+        println("stopPost 请求===>${userId}")
+        val requestUrl : String = "$url?userId=$userId"
+        val body = RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), "")
+        val request = Request.Builder().post(body).url(requestUrl).build()
         executeRequest(request, callback)
     }
 
     // DELETE 请求
-    fun delete(url: String, token: String,callback: (String?) -> Unit) {
+    fun delete(url: String, callback: (String?) -> Unit) {
         val request = Request.Builder().url(url).delete().build()
         executeRequest(request, callback)
     }

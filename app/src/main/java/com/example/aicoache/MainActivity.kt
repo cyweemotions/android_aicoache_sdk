@@ -12,6 +12,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import com.example.trainingLib.AiSupport
+import com.example.trainingLib.LoginInfoModel
 import com.example.trainingLib.ResponseModel
 import com.example.trainingLib.TrainingCourseDetail
 import com.example.trainingLib.requestModel
@@ -27,7 +28,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var binding: MainLayoutBinding
     private lateinit var itemBinding: ListItemBinding
 
-    val token : String = "eyJhbGciOiJIUzUxMiJ9.eyJhcHBfbG9naW5fdXNlcl9rZXkiOiJiY2YzYmRhNC1lNzZjLTQ4NTMtYTMxNS1iMTVkZThkNWEyMDcifQ.lsUCEiblyGYaC-PwvrTkxsk7AuaqTdmJVGL1PSAQo6dHZrumA6sOwqBmMBYuGYwAH-mTiI9ggPbGcAvsFCoszQ"
+    val appKey : String = "XXDZyRfXVepBLYk4jAZbVGL9FDdLFpfV"
+    var userId : Long = 0
     private lateinit var listView : ListView
     private lateinit var adapter : CustomAdapter
     private val listData = mutableListOf<List<String>>()  // 用于存储数据的 List
@@ -60,6 +62,10 @@ class MainActivity : ComponentActivity() {
         println("onStart-执行")
         ///所有请求开线程
         ///先用天气
+        binding.login.setOnClickListener {
+            println("登录")
+            login()
+        }
         binding.createPlan.setOnClickListener {
             println("创建计划")
             createPlanBtn()
@@ -73,37 +79,54 @@ class MainActivity : ComponentActivity() {
             stopPlanBtn()
         }
     }
-    fun login() {
-        println("login-执行11")
-        binding.login.setOnClickListener {
-            println("login-执行22")
-            binding.userinfo.text = "登录成功"
-            Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
-            binding.login.setBackgroundColor(ContextCompat.getColor(this, R.color.success))
-        }
-    }
-
     fun showUserInfo() {
 
         var text:String = """
-            出生日期-birthday:  2000-11-09,
-            课程类型-courseType:  健康跑,
-            身高-height:  172cm,
-            近1个月跑量类型-monthlyDistanceType:  <50km,
-            用户性别-sex:  男,
-            课程开始时间-startTime:  2024-11-24,
-            1周训练日-trainingDaysPerWeek:  周一、周三、周五,
-            体重-weight:  62kg,
+            出生日期:  2000-01-01,
+            课程类型:  健康跑,
+            身高:  175cm,
+            近1个月跑量类型:  <50km,
+            用户性别:  男,
+            课程开始时间:  2024-11-24,
+            1周训练日:  周一、周三、周五,
+            体重:  70kg,
         """.trimIndent()
         binding.userinfo.text = text
     }
+    ///登录
+    fun login() {
+        val loginInfoModel = LoginInfoModel(
+            appkey = appKey,
+            sex = 0,
+            userAccount = "Test123456",
+            userName = "Test",
+            userPassword = "123456",
+        )
+        AiSupport().login(loginInfoModel){ res ->
+            val gson = Gson()
+            val mapType = object : TypeToken<Map<String, String>>() {}.type
+            val dataMap: Map<String, String> = gson.fromJson(res, mapType)
+            val value = gson.fromJson(dataMap["data"], Long::class.java)
+            println("dataMap=========>$dataMap")
+            println("value=========>$value")
+            runOnUiThread {
+                if (dataMap["code"] == "200") {
+                    userId = value
+                    println("userId===>$userId")
+                    Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    ///创建计划
     fun createPlanBtn() {
         val currentDate = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val formattedDate = formatter.format(currentDate)
         val requestModel = requestModel(
+            userId = userId,
             birthday = "2000-01-01",
-            courseType = 2,
+            courseType = 1,
             height = 175,
             monthlyDistanceType = 1,
             sex = 0,
@@ -112,7 +135,7 @@ class MainActivity : ComponentActivity() {
             weight = 70
         )
         var response : ResponseModel?
-        AiSupport().createPlan(token,requestModel){ res ->
+        AiSupport().createPlan(requestModel){ res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
             val value = Gson().toJson(dataMap["data"])
             println("value=========>$value")
@@ -131,18 +154,19 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
     }
+    ///获取计划
     fun getPlanBtn() {
+        println("userId=====>$userId")
         var response : ResponseModel?
-        AiSupport().getPlan(token){ res ->
+        AiSupport().getPlan(userId){ res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
             val value = Gson().toJson(dataMap["data"])
             println("value=========>$value")
             response = Gson().fromJson(value, ResponseModel::class.java)
             planList = response?.trainingCourseDetailList ?: emptyList()
             runOnUiThread {
-                if (dataMap["code"].toString() == "200.0") {
+                if (dataMap["code"] == "200") {
                     Toast.makeText(this, "获取计划成功", Toast.LENGTH_SHORT).show()
                 }
 //                println("${planList.size}")
@@ -155,13 +179,14 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    ///停止计划
     fun stopPlanBtn() {
-        AiSupport().stopPlan(token){res->
+        AiSupport().stopPlan(userId){res->
             val map = Gson().fromJson(res, Map::class.java)
             println("map===>$map")
             runOnUiThread {
-                clearAllItem(adapter)
                 if (map["code"].toString() == "200.0") {
+                    clearAllItem(adapter)
                     Toast.makeText(this, "停止计划成功", Toast.LENGTH_SHORT).show()
                 }
             }
