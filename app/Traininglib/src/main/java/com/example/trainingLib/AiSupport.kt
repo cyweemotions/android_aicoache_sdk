@@ -45,10 +45,8 @@ class AiSupport {
         println("回调函数处理结果: $result")
     }
     //停止计划
-    fun stopPlan(token:String, params:requestModel,callback: (String?) -> Unit) {
-        val gson = Gson()
-        val paramsJson = gson.toJson(params)
-        println(paramsJson)
+    fun stopPlan(token:String, callback: (String?) -> Unit) {
+        val paramsJson = ""
         HttpClientHelper().post(stopPlanUrl, paramsJson, token,callback)
     }
 

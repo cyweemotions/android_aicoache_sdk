@@ -17,6 +17,7 @@ import com.example.trainingLib.ResponseModel
 import com.example.trainingLib.TrainingCourseDetail
 import com.example.trainingLib.requestModel
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -55,6 +56,8 @@ class MainActivity : ComponentActivity() {
         }
 
         showUserInfo()
+        //首次进入获取计划
+        getPlanBtn()
         println("onStart-执行")
         ///所有请求开线程
         ///先用天气
@@ -65,6 +68,10 @@ class MainActivity : ComponentActivity() {
         binding.getPlan.setOnClickListener {
             println("获取计划")
             getPlanBtn()
+        }
+        binding.stopPlan.setOnClickListener {
+            println("停止计划")
+            stopPlanBtn()
         }
     }
     fun login() {
@@ -92,13 +99,9 @@ class MainActivity : ComponentActivity() {
         binding.userinfo.text = text
     }
     fun createPlanBtn() {
-        // 获取当前本地日期
         val currentDate = Calendar.getInstance().time
-        // 创建日期格式化器
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        // 格式化当前日期
         val formattedDate = formatter.format(currentDate)
-
         val requestModel = requestModel(
             birthday = "2000-01-01",
             courseType = 2,
@@ -109,25 +112,58 @@ class MainActivity : ComponentActivity() {
             trainingDaysPerWeek = "1,3,5",
             weight = 70
         )
-
+        var response : ResponseModel?
         AiSupport().createPlan(token,requestModel){ res ->
-                println("返回-${res.toString()}")
+            val dataMap = Gson().fromJson(res, Map::class.java)
+            val value = Gson().toJson(dataMap["data"])
+            println("value=========>$value")
+            response = Gson().fromJson(value, ResponseModel::class.java)
+            planList = response?.trainingCourseDetailList ?: emptyList()
+            runOnUiThread {
+                if (dataMap["code"].toString() == "200.0") {
+                    Toast.makeText(this, "创建计划成功", Toast.LENGTH_SHORT).show()
+                }
+                println("${planList.size}")
+                clearAllItem(adapter)
+                for (i in planList){
+                    println(i.courseTime)
+                    val dataItem = listOf(i.courseTime, i.courseName)
+                    addItem(dataItem, adapter)
+                }
+            }
         }
 
     }
     fun getPlanBtn() {
         var response : ResponseModel?
-
         AiSupport().getPlan(token){ res ->
-            val data = Gson().fromJson(res, ApiResponseModel::class.java)
-            response = data.data
+            val dataMap = Gson().fromJson(res, Map::class.java)
+            val value = Gson().toJson(dataMap["data"])
+            println("value=========>$value")
+            response = Gson().fromJson(value, ResponseModel::class.java)
             planList = response?.trainingCourseDetailList ?: emptyList()
             runOnUiThread {
-                println("${planList.size}")
+                if (dataMap["code"].toString() == "200.0") {
+                    Toast.makeText(this, "获取计划成功", Toast.LENGTH_SHORT).show()
+                }
+//                println("${planList.size}")
+                clearAllItem(adapter)
                 for (i in planList){
                     println(i.courseTime)
                     val dataItem = listOf(i.courseTime, i.courseName)
                     addItem(dataItem, adapter)
+                }
+            }
+        }
+    }
+    fun stopPlanBtn() {
+        AiSupport().stopPlan(token){res->
+            val map = Gson().fromJson(res, Map::class.java)
+            println("map===>$map")
+            runOnUiThread {
+                clearAllItem(adapter)
+                if (map["code"].toString() == "200.0") {
+                    Toast.makeText(this, "停止计划成功", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -138,4 +174,11 @@ class MainActivity : ComponentActivity() {
         listData.add(newItem)
         adapter.notifyDataSetChanged()
     }
+    // 删除所有项
+    private fun clearAllItem(adapter: CustomAdapter) {
+        listData.clear()
+        adapter.notifyDataSetChanged()
+    }
+
+
 }
