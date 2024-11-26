@@ -13,9 +13,11 @@ class AiSupport {
 
     )
     companion object {
-        val createPlanUrl = "https://test-health.cyweemotion.cn/cmms/app/trainingCourse/generateTrainingPlan"
-        val getPlanUrl = "https://test-health.cyweemotion.cn/cmms/app/trainingCourse/getTrainingCourseInfo"
-        val stopPlanUrl = "https://test-health.cyweemotion.cn/cmms/app/trainingCourse/stopTrainingPlan"
+        val baseUrl = "https://test-health.cyweemotion.cn/cmms"
+        val createPlanUrl = "${baseUrl}/app/trainingCourse/generateTrainingPlan"
+        val getPlanUrl = "${baseUrl}/app/trainingCourse/getTrainingCourseInfo"
+        val stopPlanUrl = "${baseUrl}/app/trainingCourse/stopTrainingPlan"
+        val loginUrl = "${baseUrl}/external/userAccountRegister"
     }
 
 

@@ -17,9 +17,3 @@ data class TrainingCourseDetail(
     val courseTime: String,
     val id: Long
 )
-
-data class ApiResponseModel(
-    val code: Int,
-    val msg: String,
-    val data: ResponseModel,
-)

@@ -12,7 +12,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import com.example.trainingLib.AiSupport
-import com.example.trainingLib.ApiResponseModel
 import com.example.trainingLib.ResponseModel
 import com.example.trainingLib.TrainingCourseDetail
 import com.example.trainingLib.requestModel
