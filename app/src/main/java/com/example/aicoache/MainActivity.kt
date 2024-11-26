@@ -125,17 +125,17 @@ class MainActivity : ComponentActivity() {
         val formattedDate = formatter.format(currentDate)
         val requestModel = requestModel(
             userId = userId,
-            birthday = "2000-01-01",
+            birthday = "2000-01-11",
             courseType = 1,
             height = 175,
             monthlyDistanceType = 1,
             sex = 0,
-            startTime = formattedDate,
+            startTime = "2024-11-26",
             trainingDaysPerWeek = "1,3,5",
             weight = 70
         )
         var response : ResponseModel?
-        AiSupport().createPlan(requestModel){ res ->
+        AiSupport().createPlan(requestModel, callback = { res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
             val value = Gson().toJson(dataMap["data"])
             println("value=========>$value")
@@ -153,7 +153,12 @@ class MainActivity : ComponentActivity() {
                     addItem(dataItem, adapter)
                 }
             }
-        }
+        }, errCallback = { err->
+            runOnUiThread {
+                println("err=========>$err")
+                Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
     ///获取计划
     fun getPlanBtn() {
