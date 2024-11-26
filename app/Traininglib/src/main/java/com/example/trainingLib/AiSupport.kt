@@ -27,6 +27,9 @@ class AiSupport {
     }
     ///生成计划
     fun createPlan(params:requestModel, callback: (String?) -> Unit, errCallback: (String?) -> Unit){
+        params.birthday = params.birthday.trim()
+        params.startTime = params.startTime.trim()
+        params.trainingDaysPerWeek = params.trainingDaysPerWeek.trim()
         var trainingDaysPerWeek: List<String> = params.trainingDaysPerWeek.split(",")
         if(params.userId == null) {
             errCallback("userId不能为空")
@@ -85,13 +88,12 @@ class AiSupport {
     ///5.停止计划失败，再去请求获取是否能拿到。
     ///6.userid错误情况，如何处理
 
+    //解析时间字符串
     fun isValidDate(dateString: String): Boolean {
         // 定义日期格式
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
         // 设置严格解析模式
         dateFormat.isLenient = false
-
         try {
             // 尝试解析字符串
             dateFormat.parse(dateString)
@@ -101,21 +103,19 @@ class AiSupport {
             return false
         }
     }
+    //比较传入的日期和今天的日期
     fun isDateBeforeToday(dateString: String): Boolean {
         // 定义日期格式，确保和传入的字符串格式一致
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
         // 获取当前日期
         val today = Calendar.getInstance()
         today.set(Calendar.HOUR_OF_DAY, 0)
         today.set(Calendar.MINUTE, 0)
         today.set(Calendar.SECOND, 0)
         today.set(Calendar.MILLISECOND, 0)
-
         // 解析传入的日期字符串
         try {
             val inputDate = dateFormat.parse(dateString)
-
             // 比较传入的日期和今天的日期
             return inputDate.before(today.time)
         } catch (e: Exception) {
