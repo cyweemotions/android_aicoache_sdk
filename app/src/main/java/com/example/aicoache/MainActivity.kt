@@ -197,12 +197,8 @@ class MainActivity : AppCompatActivity() {
         }
         showBottomListDialog()
     }
-<<<<<<< HEAD
 
-
-=======
     ///停止计划
->>>>>>> 8120e8462fead51ae0672a2f3186b83d2a0a24d2
     fun stopPlanBtn() {
         AiSupport().stopPlan(userId){res->
             val map = Gson().fromJson(res, Map::class.java)
