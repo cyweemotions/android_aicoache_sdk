@@ -8,7 +8,9 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import com.example.aicoache.databinding.MainLayoutBinding
 import com.example.aicoache.databinding.ListItemBinding
@@ -68,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        showUserInfo()
+//        showUserInfo()
         //首次进入获取计划
         getPlanBtn()
         println("onStart-执行")
@@ -91,19 +93,54 @@ class MainActivity : AppCompatActivity() {
             stopPlanBtn()
         }
     }
-    fun showUserInfo() {
+//    fun showUserInfo() {
+//
+//        var text:String = """
+//            出生日期:  2000-01-01,
+//            课程类型:  健康跑,
+//            身高:  175cm,
+//            近1个月跑量类型:  <50km,
+//            用户性别:  男,
+//            课程开始时间:  2024-11-24,
+//            1周训练日:  周一、周三、周五,
+//            体重:  70kg,
+//        """.trimIndent()
+//        binding.userinfo.text = text
+//    }
 
-        var text:String = """
-            出生日期:  2000-01-01,
-            课程类型:  健康跑,
-            身高:  175cm,
-            近1个月跑量类型:  <50km,
-            用户性别:  男,
-            课程开始时间:  2024-11-24,
-            1周训练日:  周一、周三、周五,
-            体重:  70kg,
-        """.trimIndent()
-        binding.userinfo.text = text
+    //出生日期
+    fun birthdayLinearClick(view: View) {
+        println("你好 kotlin")
+    }
+    //课程类型
+    fun courseTypeLinearClick(view: View) {
+//        view.findViewById<TextView>(R.id.courseType).text = "全马跑"
+        binding.courseType.text = "半马跑"
+        println("你好 kotlin")
+    }
+    //身高
+    fun heightLinearClick(view: View) {
+        println("你好 kotlin")
+    }
+    //体重
+    fun weightLinearClick(view: View) {
+        println("你好 kotlin")
+    }
+    //近一个月跑量
+    fun monthlyDistanceTypeLinearClick(view: View) {
+        println("你好 kotlin")
+    }
+    //性别
+    fun sexLinearClick(view: View) {
+        println("你好 kotlin")
+    }
+    //课程开始时间
+    fun startTimeLinearClick(view: View) {
+        println("你好 kotlin")
+    }
+    //一周训练日
+    fun strainingDaysPerWeekLinear(view: View) {
+        println("你好 kotlin")
     }
     ///登录
     fun login() {

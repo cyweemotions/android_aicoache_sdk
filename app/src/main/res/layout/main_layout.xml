@@ -12,12 +12,115 @@
         android:layout_height="wrap_content"
         android:text="登录"
         android:layout_marginTop="20dp"/>
-    <TextView
-        android:id="@+id/userinfo"
-        android:layout_width="wrap_content"
+<!--    <TextView-->
+<!--        android:id="@+id/userinfo"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="用户信息"-->
+<!--        android:textSize="16sp"/>-->
+<!--    出生日期-->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="用户信息"
-        android:textSize="16sp"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="birthdayLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="出生日期" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/birthday" android:layout_width="0dp" android:layout_height="wrap_content" android:text="2000-11-11" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+<!--    课程类型-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="courseTypeLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="课程类型" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/courseType" android:layout_width="0dp" android:layout_height="wrap_content" android:text="健康跑" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+<!--    身高-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="heightLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="身高" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/height" android:layout_width="0dp" android:layout_height="wrap_content" android:text="200cm" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+<!--    体重-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="weightLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="体重" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/weight" android:layout_width="0dp" android:layout_height="wrap_content" android:text="100kg" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+<!--    近一个月跑量-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="monthlyDistanceTypeLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="近一个月跑量" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/monthlyDistanceType" android:layout_width="0dp" android:layout_height="wrap_content" android:text="50km" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+    <!--    性别-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="sexLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="性别" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/sex" android:layout_width="0dp" android:layout_height="wrap_content" android:text="男" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+<!--    课程开始时间-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="startTimeLinearClick">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="课程开始时间" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/startTime" android:layout_width="0dp" android:layout_height="wrap_content" android:text=" 2024-11-27" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
+
+<!--    一周训练日-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:onClick="strainingDaysPerWeekLinear">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="一周训练日" android:layout_weight="1" android:textSize="16sp" />
+        <TextView android:id="@+id/trainingDaysPerWeek" android:layout_width="0dp" android:layout_height="wrap_content" android:text="周一、周三、周五" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/create_plan"
