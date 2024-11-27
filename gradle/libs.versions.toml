@@ -15,7 +15,9 @@ okhttp3 = "4.12.0"
 okhttp3log = "4.10.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
-pickviewv = "1.2.3"
+pickview = "0.6.3"
+recyclerview = "1.2.1"
+xpopup = "2.10.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,7 +41,9 @@ okhttplib = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "ok
 okhttpliblog = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3log" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-pickview = { group = "com.brucetoo.pickview", name = "pickview", version.ref = "pickviewv" }
+pickview = { group = "com.github.loper7", name = "DateTimePicker", version.ref = "pickview" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+xpopup = { group = "com.github.li-xiaojun", name = "xpopup", version.ref = "xpopup" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

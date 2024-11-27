@@ -2,6 +2,10 @@ package com.example.aicoache
 
 import CustomAdapter
 import Item
+import android.app.AlertDialog
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ListView
@@ -10,6 +14,7 @@ import com.example.aicoache.databinding.MainLayoutBinding
 import com.example.aicoache.databinding.ListItemBinding
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.trainingLib.AiSupport
 import com.example.trainingLib.ResponseModel
@@ -17,12 +22,18 @@ import com.example.trainingLib.TrainingCourseDetail
 import com.example.trainingLib.requestModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.loper7.date_time_picker.DateTimeConfig
+import com.loper7.date_time_picker.DateTimePicker
+import com.loper7.date_time_picker.dialog.CardDatePickerDialog
+import com.lxj.xpopup.XPopup
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainLayoutBinding
     private lateinit var itemBinding: ListItemBinding
@@ -38,6 +49,7 @@ class MainActivity : ComponentActivity() {
         binding = MainLayoutBinding.inflate(layoutInflater)
         itemBinding = ListItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
         initload()
         enableEdgeToEdge()
     }
@@ -154,7 +166,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        showBottomListDialog()
     }
+
+
     fun stopPlanBtn() {
         AiSupport().stopPlan(token){res->
             val map = Gson().fromJson(res, Map::class.java)
@@ -179,5 +194,38 @@ class MainActivity : ComponentActivity() {
         adapter.notifyDataSetChanged()
     }
 
+
+    private fun showDateTimePicker() {
+        var displayList: MutableList<Int> = mutableListOf()
+        displayList.add(DateTimeConfig.YEAR)
+        displayList.add(DateTimeConfig.MONTH)
+        displayList.add(DateTimeConfig.DAY)
+        // 创建日期时间选择器实例
+        CardDatePickerDialog.builder(this)
+            .setTitle("设置出生日期")
+            .setDefaultTime(0)
+            .setWrapSelectorWheel(false)
+            .setChooseDateModel(DateTimeConfig.DATE_LUNAR)
+            .setTouchHideable(true)
+            .setDisplayType(displayList)//显示
+            .setOnChoose {
+                println("值:${it}")
+            }.build().show()
+    }
+
+
+    fun showBottomListDialog() {
+        val datas = arrayOf("条目1", "条目2", "条目3", "条目4")
+        XPopup.Builder(this)
+            .asBottomList("提示",  datas, { position, text ->
+                // 点击确认按钮后的回调
+                println("Confirm clicked!")
+            })
+            .show()
+    }
+
+    fun multiSelect(){
+
+    }
 
 }

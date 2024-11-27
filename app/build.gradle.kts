@@ -77,4 +77,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.gsonlib)
     implementation(libs.pickview)
+    implementation(libs.recyclerview)
+    implementation(libs.xpopup)
 }

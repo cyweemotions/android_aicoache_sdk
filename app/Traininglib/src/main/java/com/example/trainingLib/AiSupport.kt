@@ -37,7 +37,6 @@ class AiSupport {
         val gson = Gson()
         HttpClientHelper().get(getPlanUrl, token){ res->
             println("回调函数处理结果res===>: $res")
-
             callback(res)
         }
 
