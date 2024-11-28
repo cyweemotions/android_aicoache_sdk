@@ -53,7 +53,7 @@
         android:padding="8dp"
         android:onClick="heightLinearClick">
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="身高" android:layout_weight="1" android:textSize="16sp" />
-        <TextView android:id="@+id/height" android:layout_width="0dp" android:layout_height="wrap_content" android:text="200cm" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <TextView android:id="@+id/height" android:layout_width="0dp" android:layout_height="wrap_content" android:text="170cm" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
         <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
     </LinearLayout>
 
@@ -66,7 +66,7 @@
         android:padding="8dp"
         android:onClick="weightLinearClick">
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="体重" android:layout_weight="1" android:textSize="16sp" />
-        <TextView android:id="@+id/weight" android:layout_width="0dp" android:layout_height="wrap_content" android:text="100kg" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <TextView android:id="@+id/weight" android:layout_width="0dp" android:layout_height="wrap_content" android:text="50kg" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
         <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
     </LinearLayout>
 
@@ -105,7 +105,7 @@
         android:padding="8dp"
         android:onClick="startTimeLinearClick">
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:text="课程开始时间" android:layout_weight="1" android:textSize="16sp" />
-        <TextView android:id="@+id/startTime" android:layout_width="0dp" android:layout_height="wrap_content" android:text=" 2024-11-27" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
+        <TextView android:id="@+id/startTime" android:layout_width="0dp" android:layout_height="wrap_content" android:text="" android:layout_weight="1" android:gravity="end" android:layout_marginEnd="4dp" android:textSize="16sp" />
         <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/right"/>
     </LinearLayout>
 

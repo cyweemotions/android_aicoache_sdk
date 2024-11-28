@@ -1,20 +1,14 @@
 package com.example.aicoache
 
 import CustomAdapter
-import Item
-import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
-import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.ListView
-import android.widget.TextView
 import android.widget.Toast
 import com.example.aicoache.databinding.MainLayoutBinding
 import com.example.aicoache.databinding.ListItemBinding
-import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -26,19 +20,18 @@ import com.example.trainingLib.requestModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.loper7.date_time_picker.DateTimeConfig
-import com.loper7.date_time_picker.DateTimePicker
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog
 import com.lxj.xpopup.XPopup
 import java.text.SimpleDateFormat
-import java.time.LocalDate
+import java.time.Instant
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var listener: () -> Unit
     private lateinit var binding: MainLayoutBinding
     private lateinit var itemBinding: ListItemBinding
 
@@ -48,9 +41,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter : CustomAdapter
     private val listData = mutableListOf<List<String>>()  // 用于存储数据的 List
     private lateinit var planList:List<TrainingCourseDetail> //训练计划数据
+    private var weeks:ArrayList<Int> = arrayListOf(1,3,5)
+    private var courseValue:Int = 1
+    private var weight:Int = 50
+    private var height:Int = 170
+    private var distance:Int = 1
+    private var sex:Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         binding = MainLayoutBinding.inflate(layoutInflater)
         itemBinding = ListItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -70,13 +71,12 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("item", courseContent)
             startActivity(intent)
         }
+        val currentDate = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate = formatter.format(currentDate)
+        binding.startTime.text = formattedDate
 
 //        showUserInfo()
-        //首次进入获取计划
-        getPlanBtn()
-        println("onStart-执行")
-        ///所有请求开线程
-        ///先用天气
         binding.login.setOnClickListener {
             println("登录")
             login()
@@ -94,54 +94,89 @@ class MainActivity : AppCompatActivity() {
             stopPlanBtn()
         }
     }
-//    fun showUserInfo() {
-//
-//        var text:String = """
-//            出生日期:  2000-01-01,
-//            课程类型:  健康跑,
-//            身高:  175cm,
-//            近1个月跑量类型:  <50km,
-//            用户性别:  男,
-//            课程开始时间:  2024-11-24,
-//            1周训练日:  周一、周三、周五,
-//            体重:  70kg,
-//        """.trimIndent()
-//        binding.userinfo.text = text
-//    }
 
     //出生日期
     fun birthdayLinearClick(view: View) {
-        println("你好 kotlin")
+        showDateTimePicker("请选择出生日期", opration = { value ->
+            val date = Date(value)
+            val formatter = SimpleDateFormat("yyyy-MM-dd")
+            val formattedDate = formatter.format(date)
+            binding.birthday.text = formattedDate.toString()
+        })
     }
     //课程类型
     fun courseTypeLinearClick(view: View) {
-//        view.findViewById<TextView>(R.id.courseType).text = "全马跑"
-        binding.courseType.text = "半马跑"
-        println("你好 kotlin")
+        val datas = arrayOf("健康跑","三公里", "五公里", "十公里", "半马","全马")
+        showcenterListDialog(datas,opration = { value ->
+            courseValue = value
+            binding.courseType.text = datas[value.toInt()]
+        })
+
     }
     //身高
     fun heightLinearClick(view: View) {
-        println("你好 kotlin")
+        var datas = arrayListOf("60cm")
+        var heights = 60
+        for (i in 1..30){
+            heights= heights +5
+            datas.add(heights.toString()+"cm")
+        }
+        showBottomListDialog(datas.toTypedArray(),opration = { value ->
+            binding.height.text = datas[value.toInt()]
+            height = binding.height.text.split("c").first().toInt()
+        })
     }
     //体重
     fun weightLinearClick(view: View) {
-        println("你好 kotlin")
+        var datas = arrayListOf("30kg")
+        var weights = 30
+        for (i in 1..70){
+            weights= weights +1
+            datas.add(weights.toString()+"kg")
+        }
+        showBottomListDialog(datas.toTypedArray(),opration = { value ->
+            binding.weight.text = datas[value.toInt()]
+            weight = binding.weight.text.split("k").first().toInt()
+        })
     }
     //近一个月跑量
     fun monthlyDistanceTypeLinearClick(view: View) {
-        println("你好 kotlin")
+        val datas = arrayOf("<50km ","51-150km", "151-300km", ">300km")
+        showBottomListDialog(datas,opration = { value ->
+            binding.monthlyDistanceType.text = datas[value.toInt()]
+            distance = value.toInt() + 1
+        })
     }
     //性别
     fun sexLinearClick(view: View) {
-        println("你好 kotlin")
+        val datas = arrayOf("男","女")
+        showBottomListDialog(datas,opration = { value ->
+            binding.sex.text = datas[value.toInt()]
+            sex = value.toInt()
+        })
     }
     //课程开始时间
     fun startTimeLinearClick(view: View) {
-        println("你好 kotlin")
+        showDateTimePicker("请选择课程开始时间",opration = { value ->
+            val date = Date(value)
+            val formatter = SimpleDateFormat("yyyy-MM-dd")
+            val formattedDate = formatter.format(date)
+            binding.startTime.text = formattedDate.toString()
+        })
     }
     //一周训练日
     fun strainingDaysPerWeekLinear(view: View) {
-        println("你好 kotlin")
+        val datas = arrayOf("周一","周二","周三","周四","周五","周六","周日")
+        multiSelect(datas,opration = { value ->
+            //2/6
+            if(weeks.contains(value)){
+                //删除
+                weeks.remove(value)
+            }else{
+                weeks.add(value)
+            }
+            weeks = weeks.distinct().toList() as ArrayList<Int>
+        })
     }
     ///登录
     fun login() {
@@ -156,40 +191,44 @@ class MainActivity : AppCompatActivity() {
             userName = "Test",
             userPassword = "123456",
         )
-        AiSupport().login(loginInfoModel){ res ->
+        AiSupport().login(loginInfoModel, callback = { res ->
             val gson = Gson()
             val mapType = object : TypeToken<Map<String, String>>() {}.type
             val dataMap: Map<String, String> = gson.fromJson(res, mapType)
             val value = gson.fromJson(dataMap["data"], Long::class.java)
-            println("dataMap=========>$dataMap")
-            println("value=========>$value")
             runOnUiThread {
                 if (dataMap["code"] == "200") {
                     userId = value
-                    println("userId===>$userId")
                     Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
                     binding.login.text = "登录成功"
                     binding.login.setBackgroundColor(ContextCompat.getColor(this, R.color.success))
                 }
             }
-        }
+        }, errCallback = { err->
+            runOnUiThread {
+                println("err=========>$err")
+                Toast.makeText(this, err, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
     ///创建计划
     fun createPlanBtn() {
-        val currentDate = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val formattedDate = formatter.format(currentDate)
+        if(userId.toInt() == 0) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show()
+            return
+        }
         val requestModel = requestModel(
             userId = userId,
-            birthday = "2000-01-11",
-            courseType = 1,
-            height = 175,
-            monthlyDistanceType = 1,
-            sex = 0,
-            startTime = formattedDate,
+            birthday = binding.birthday.text.toString(),
+            courseType = courseValue,
+            height = height,
+            monthlyDistanceType = distance,
+            sex = sex,
+            startTime = binding.startTime.text.toString(),
             trainingDaysPerWeek = "1,3,5",
-            weight = 70
+            weight = weight
         )
+        println("createPlanBtn-requestModel:${requestModel.toString()}")
         var response : ResponseModel?
         AiSupport().createPlan(requestModel, callback = { res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
@@ -198,8 +237,11 @@ class MainActivity : AppCompatActivity() {
             response = Gson().fromJson(value, ResponseModel::class.java)
             planList = response?.trainingCourseDetailList ?: emptyList()
             runOnUiThread {
-                if (dataMap["code"].toString() == "200.0") {
+                var code = dataMap["code"] as Double
+                if (code.toInt() == 200) {
                     Toast.makeText(this, "创建计划成功", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this, dataMap["msg"].toString()+":"+code.toInt().toString(), Toast.LENGTH_SHORT).show()
                 }
                 println("${planList.size}")
                 clearAllItem(adapter)
@@ -218,7 +260,10 @@ class MainActivity : AppCompatActivity() {
     }
     ///获取计划
     fun getPlanBtn() {
-        println("userId=====>$userId")
+        if(userId.toInt() == 0) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show()
+            return
+        }
         var response : ResponseModel?
         AiSupport().getPlan(userId){ res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
@@ -226,24 +271,31 @@ class MainActivity : AppCompatActivity() {
             println("value=========>$value")
             response = Gson().fromJson(value, ResponseModel::class.java)
             planList = response?.trainingCourseDetailList ?: emptyList()
+            var code = dataMap["code"] as Double
             runOnUiThread {
-                if (dataMap["code"] == "200") {
-                    Toast.makeText(this, "获取计划成功", Toast.LENGTH_SHORT).show()
-                }
-//                println("${planList.size}")
-                clearAllItem(adapter)
-                for (i in planList){
-                    println(i.courseTime)
-                    val dataItem = listOf(i.courseTime, i.courseName)
-                    addItem(dataItem, adapter)
+                if (code.toInt() == 200) {
+                    if(dataMap["data"].toString() == "{}") {
+                        Toast.makeText(this, "无训练计划", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "获取计划成功", Toast.LENGTH_SHORT).show()
+                        clearAllItem(adapter)
+                        for (i in planList){
+                            println(i.courseTime)
+                            val dataItem = listOf(i.courseTime, i.courseName)
+                            addItem(dataItem, adapter)
+                        }
+                    }
                 }
             }
         }
-        showBottomListDialog()
     }
 
     ///停止计划
     fun stopPlanBtn() {
+        if(userId.toInt() == 0) {
+            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show()
+            return
+        }
         AiSupport().stopPlan(userId){res->
             val map = Gson().fromJson(res, Map::class.java)
             println("map===>$map")
@@ -268,14 +320,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun showDateTimePicker() {
+    private fun showDateTimePicker( title: String, opration: (position: Long) -> Unit) {
         var displayList: MutableList<Int> = mutableListOf()
         displayList.add(DateTimeConfig.YEAR)
         displayList.add(DateTimeConfig.MONTH)
         displayList.add(DateTimeConfig.DAY)
         // 创建日期时间选择器实例
         CardDatePickerDialog.builder(this)
-            .setTitle("设置出生日期")
+            .setTitle(title)
             .setDefaultTime(0)
             .setWrapSelectorWheel(false)
             .setChooseDateModel(DateTimeConfig.DATE_LUNAR)
@@ -283,21 +335,39 @@ class MainActivity : AppCompatActivity() {
             .setDisplayType(displayList)//显示
             .setOnChoose {
                 println("值:${it}")
+                opration(it)
             }.build().show()
     }
 
 
-    fun showBottomListDialog() {
-        val datas = arrayOf("条目1", "条目2", "条目3", "条目4")
+    fun showBottomListDialog(datas: Array<String>,opration: (position: Int) -> Unit) {
         XPopup.Builder(this)
-            .asBottomList("提示",  datas, { position, text ->
+            .maxHeight(1200)
+            .asBottomList("选择",  datas, { position, text ->
                 // 点击确认按钮后的回调
-                println("Confirm clicked!")
+                opration(position)
             })
             .show()
     }
 
-    fun multiSelect(){
+
+    fun showcenterListDialog(datas: Array<String>,opration: (position: Int) -> Unit) {
+        XPopup.Builder(this)
+            .asCenterList("选择",  datas, { position, text ->
+                // 点击确认按钮后的回调
+                opration(position)
+            })
+            .show()
+    }
+
+    fun multiSelect(datas: Array<String>,opration: (position: Int) -> Unit){
+        XPopup.Builder(this)
+            .autoDismiss(false)
+            .asCenterList("选择",  datas,null,1, { position, text ->
+                // 点击确认按钮后的回调
+                opration(position)
+            })
+            .show()
 
     }
 
