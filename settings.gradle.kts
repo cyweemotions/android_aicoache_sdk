@@ -10,6 +10,9 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
         maven { url = uri( "https://jitpack.io") }
+        flatDir {
+            dirs("libs")
+        }
     }
 }
 dependencyResolutionManagement {
@@ -18,9 +21,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri( "https://jitpack.io") }
+
+        flatDir {
+            dirs ("libs")// 确保正确指定了本地库目录
+        }
     }
 }
 
 rootProject.name = "AiCoache"
 include(":app")
-include(":app:Traininglib")
+//include(":app:Traininglib")

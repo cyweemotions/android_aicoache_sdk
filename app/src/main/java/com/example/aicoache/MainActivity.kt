@@ -34,6 +34,7 @@ import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -144,6 +145,10 @@ class MainActivity : AppCompatActivity() {
     }
     ///登录
     fun login() {
+        if(userId.toInt() != 0) {
+            Toast.makeText(this, "已经登录过了", Toast.LENGTH_SHORT).show()
+            return
+        }
         val loginInfoModel = LoginInfoModel(
             appkey = appKey,
             sex = 0,
@@ -163,6 +168,8 @@ class MainActivity : AppCompatActivity() {
                     userId = value
                     println("userId===>$userId")
                     Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
+                    binding.login.text = "登录成功"
+                    binding.login.setBackgroundColor(ContextCompat.getColor(this, R.color.success))
                 }
             }
         }
@@ -179,7 +186,7 @@ class MainActivity : AppCompatActivity() {
             height = 175,
             monthlyDistanceType = 1,
             sex = 0,
-            startTime = "2024-11-26",
+            startTime = formattedDate,
             trainingDaysPerWeek = "1,3,5",
             weight = 70
         )

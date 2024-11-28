@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-
+    implementation(files("libs/Traininglib.aar"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,7 +63,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(project(":app:Traininglib"))
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
@@ -79,4 +78,6 @@ dependencies {
     implementation(libs.pickview)
     implementation(libs.recyclerview)
     implementation(libs.xpopup)
+    implementation(libs.okhttplib)
+    implementation(libs.okhttpliblog)
 }
