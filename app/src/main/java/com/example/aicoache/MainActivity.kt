@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.aicoache.databinding.MainLayoutBinding
 import com.example.aicoache.databinding.ListItemBinding
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.trainingLib.AiSupport
@@ -23,14 +24,12 @@ import com.loper7.date_time_picker.DateTimeConfig
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog
 import com.lxj.xpopup.XPopup
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var listener: () -> Unit
     private lateinit var binding: MainLayoutBinding
     private lateinit var itemBinding: ListItemBinding
@@ -108,7 +107,7 @@ class MainActivity : AppCompatActivity() {
     fun courseTypeLinearClick(view: View) {
         val datas = arrayOf("健康跑","三公里", "五公里", "十公里", "半马","全马")
         showcenterListDialog(datas,opration = { value ->
-            courseValue = value
+            courseValue = value+1
             binding.courseType.text = datas[value.toInt()]
         })
 
@@ -166,17 +165,29 @@ class MainActivity : AppCompatActivity() {
     }
     //一周训练日
     fun strainingDaysPerWeekLinear(view: View) {
-        val datas = arrayOf("周一","周二","周三","周四","周五","周六","周日")
-        multiSelect(datas,opration = { value ->
-            //2/6
-            if(weeks.contains(value)){
-                //删除
-                weeks.remove(value)
-            }else{
-                weeks.add(value)
+        val items = arrayOf("周一","周二","周三","周四","周五","周六","周日")
+        // 使用示例
+        val selectedItems = booleanArrayOf(true, false, true,false, true, false,false) // 初始选中状态
+        showMultiChoiceDialog(items, selectedItems, "选择一周训练日") { selected ->
+            // 处理选中结果
+            println("训练日:${selected.withIndex().count()}")
+            var reWeek: ArrayList<Int> = arrayListOf()
+            var reweekStrings: ArrayList<String> = arrayListOf()
+            for ((index, isSelected) in selected.withIndex()) {
+                if (isSelected) {
+                    println("选项${index + 1} 被选中")
+                    reWeek.add(index + 1)
+                    reweekStrings.add(items[index])
+                }
             }
-            weeks = weeks.distinct().toList() as ArrayList<Int>
-        })
+            if (reWeek.count() < 2 || reWeek.count() > 6) {
+                Toast.makeText(this, "1周训练日 2-6天", Toast.LENGTH_SHORT).show()
+            } else {
+                println("选中的周:${reweekStrings}--${reWeek.toString()}")
+                binding.trainingDaysPerWeek.text = reweekStrings.joinToString().replace(" ", "")
+                weeks = reWeek
+            }
+        }
     }
     ///登录
     fun login() {
@@ -225,30 +236,29 @@ class MainActivity : AppCompatActivity() {
             monthlyDistanceType = distance,
             sex = sex,
             startTime = binding.startTime.text.toString(),
-            trainingDaysPerWeek = "1,3,5",
+            trainingDaysPerWeek = weeks.joinToString().replace(" ",""),
             weight = weight
         )
         println("createPlanBtn-requestModel:${requestModel.toString()}")
         var response : ResponseModel?
         AiSupport().createPlan(requestModel, callback = { res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
-            val value = Gson().toJson(dataMap["data"])
-            println("value=========>$value")
-            response = Gson().fromJson(value, ResponseModel::class.java)
-            planList = response?.trainingCourseDetailList ?: emptyList()
             runOnUiThread {
                 var code = dataMap["code"] as Double
                 if (code.toInt() == 200) {
                     Toast.makeText(this, "创建计划成功", Toast.LENGTH_SHORT).show()
+                    val value = Gson().toJson(dataMap["data"])
+                    response = Gson().fromJson(value, ResponseModel::class.java)
+                    planList = response?.trainingCourseDetailList ?: emptyList()
+                    println("${planList.size}")
+                    clearAllItem(adapter)
+                    for (i in planList){
+                        println(i.courseTime)
+                        val dataItem = listOf(i.courseTime, i.courseName)
+                        addItem(dataItem, adapter)
+                    }
                 }else{
                     Toast.makeText(this, dataMap["msg"].toString()+":"+code.toInt().toString(), Toast.LENGTH_SHORT).show()
-                }
-                println("${planList.size}")
-                clearAllItem(adapter)
-                for (i in planList){
-                    println(i.courseTime)
-                    val dataItem = listOf(i.courseTime, i.courseName)
-                    addItem(dataItem, adapter)
                 }
             }
         }, errCallback = { err->
@@ -267,24 +277,22 @@ class MainActivity : AppCompatActivity() {
         var response : ResponseModel?
         AiSupport().getPlan(userId){ res ->
             val dataMap = Gson().fromJson(res, Map::class.java)
-            val value = Gson().toJson(dataMap["data"])
-            println("value=========>$value")
-            response = Gson().fromJson(value, ResponseModel::class.java)
-            planList = response?.trainingCourseDetailList ?: emptyList()
             var code = dataMap["code"] as Double
             runOnUiThread {
                 if (code.toInt() == 200) {
-                    if(dataMap["data"].toString() == "{}") {
-                        Toast.makeText(this, "无训练计划", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, "获取计划成功", Toast.LENGTH_SHORT).show()
-                        clearAllItem(adapter)
-                        for (i in planList){
-                            println(i.courseTime)
-                            val dataItem = listOf(i.courseTime, i.courseName)
-                            addItem(dataItem, adapter)
-                        }
+                    Toast.makeText(this, "获取计划成功", Toast.LENGTH_SHORT).show()
+                    val value = Gson().toJson(dataMap["data"])
+                    println("value=========>$value")
+                    response = Gson().fromJson(value, ResponseModel::class.java)
+                    planList = response?.trainingCourseDetailList ?: emptyList()
+                    clearAllItem(adapter)
+                    for (i in planList){
+                        println(i.courseTime)
+                        val dataItem = listOf(i.courseTime, i.courseName)
+                        addItem(dataItem, adapter)
                     }
+                }else{
+                    Toast.makeText(this, dataMap["msg"].toString()+":"+code.toInt().toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -297,12 +305,15 @@ class MainActivity : AppCompatActivity() {
             return
         }
         AiSupport().stopPlan(userId){res->
-            val map = Gson().fromJson(res, Map::class.java)
-            println("map===>$map")
+            val dataMap = Gson().fromJson(res, Map::class.java)
+            val code = dataMap["code"] as Double
+            println("dataMap===>$dataMap")
             runOnUiThread {
-                if (map["code"].toString() == "200.0") {
+                if (code.toInt() == 200) {
                     clearAllItem(adapter)
                     Toast.makeText(this, "停止计划成功", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this, dataMap["msg"].toString()+":"+code.toInt().toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -369,6 +380,26 @@ class MainActivity : AppCompatActivity() {
             })
             .show()
 
+    }
+
+
+    fun showMultiChoiceDialog(
+        items: Array<String>,
+        selectedItems: BooleanArray,
+        title: CharSequence,
+        onSubmit: (BooleanArray) -> Unit) {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle(title)
+        dialog.setMultiChoiceItems(items, selectedItems) { dialog, which, isChecked ->
+            // 更新选中状态
+            selectedItems[which] = isChecked
+        }
+        dialog.setPositiveButton("确定") { dialog, which ->
+            // 提交选中结果
+            onSubmit(selectedItems)
+        }
+        dialog.setNegativeButton("取消", null)
+        dialog.show()
     }
 
 }

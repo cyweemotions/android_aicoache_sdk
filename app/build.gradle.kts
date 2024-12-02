@@ -54,7 +54,8 @@ android {
 }
 
 dependencies {
-    implementation(files("libs/Traininglib.aar"))
+//    implementation(files("libs/Traininglib.aar"))
+    implementation(fileTree("libs"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
